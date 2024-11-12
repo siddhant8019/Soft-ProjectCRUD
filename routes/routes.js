@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Student = require("../model/students"); // Ensure this path is correct
+const StudentHistory = require("../model/studentHistory"); // Adjust the path as needed
 const upload = require("../middleware/upload"); // Adjust path as needed
 
 const methodOverride = require("method-override");
@@ -89,21 +90,73 @@ router.post("/students/edit", upload.single("picture"), async (req, res) => {
   }
 });
 
-// Delete student route
+// Soft delete student route
 router.delete("/students/:id", async (req, res) => {
   const studentId = req.params.id;
 
   try {
-    // Find the student by ID and delete
-    const student = await Student.findByIdAndDelete(studentId);
+    const student = await Student.findById(studentId);
+    if (!student) return res.status(404).send("Student not found");
 
-    if (!student) {
-      return res.status(404).send("Student not found");
-    }
+    // Mark the student as deleted
+    student.isDeleted = true;
+    student.deletedAt = new Date();
+    await student.save();
 
+    console.log("Student soft-deleted successfully");
     res.redirect("/");
   } catch (error) {
-    console.error("Error deleting student:", error);
+    console.error("Error soft-deleting student:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// Recycle Bin route: Display soft-deleted students
+router.get("/recyclebin", async (req, res) => {
+  try {
+    const deletedStudents = await Student.find({ isDeleted: true }).lean();
+    res.render("recycleBin", { students: deletedStudents });
+  } catch (error) {
+    console.error("Error fetching deleted students:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// Restore route
+router.post("/students/restore/:id", async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student || !student.isDeleted)
+      return res.status(404).send("Student not found in recycle bin");
+
+    student.isDeleted = false;
+    student.deletedAt = null;
+    await student.save();
+
+    // Record restoration in student history
+    const studentHistory = new StudentHistory({
+      studentId: student._id,
+      data: student.toObject(),
+      operation: "restored",
+    });
+    await studentHistory.save();
+
+    res.redirect("/recyclebin");
+  } catch (error) {
+    console.error("Error restoring student:", error);
+    res.status(500).send("Server error");
+  }
+});
+// Permanently delete a student from the recycle bin
+router.post("/students/delete-permanent/:id", async (req, res) => {
+  const studentId = req.params.id;
+
+  try {
+    await Student.findByIdAndDelete(studentId);
+    console.log("Student permanently deleted");
+    res.redirect("/recyclebin");
+  } catch (error) {
+    console.error("Error permanently deleting student:", error);
     res.status(500).send("Server error");
   }
 });

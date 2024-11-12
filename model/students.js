@@ -27,6 +27,14 @@ const studentSchema = new mongoose.Schema({
     type: String, // Assuming picture will be stored as a URL
     required: false, // Not required, adjust as needed
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+  deletedAt: {
+    type: Date,
+    default: null,
+  },
 });
 
 // Create a model based on the schema

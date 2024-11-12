@@ -1,292 +1,411 @@
-
-</body>
-
-</html>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Skydash Admin</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Student Dataset</title>
+
     <!-- plugins:css -->
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-    <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="vendors/feather/feather.css" />
+    <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css" />
+    <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css" />
     <!-- endinject -->
+
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+    <link
+      rel="stylesheet"
+      href="vendors/datatables.net-bs4/dataTables.bootstrap4.css"
+    />
+    <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="js/select.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <!-- End plugin css for this page -->
+
     <!-- inject:css -->
-    <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="css/vertical-layout-light/style.css" />
     <!-- endinject -->
-    <link rel="shortcut icon" href="images/favicon.png" />
-</head>
 
-<body>
+    <link rel="shortcut icon" href="images/download.png" />
+  </head>
 
+  <body>
     <div class="ml-2 mr-2 content-wrapper">
-        <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title mb-0">Students Table</h4>
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addStudentModal">
-                                <i class="fas fa-user-plus"></i> Add Student
-                            </button>
-                        </div>
-                        
-                        <!-- Add Student Modal -->
-                        <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form id="addStudentForm" method="post" action="/addstudent" enctype="multipart/form-data">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="studentName">Name</label>
-                                                <input type="text" class="form-control" id="studentName" name="name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="studentEmail">Email</label>
-                                                <input type="email" class="form-control" id="studentEmail" name="email" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="studentClass">Class</label>
-                                                <select class="form-control" id="studentClass" name="class" required>
-                                                    <option value="">Select Class</option>
-                                                    <option value="10th Grade">10th Grade</option>
-                                                    <option value="9th Grade">9th Grade</option>
-                                                    <option value="8th Grade">8th Grade</option>
-                                                    <option value="7th Grade">7th Grade</option>
-                                                    <option value="6th Grade">6th Grade</option>
-                                                    <!-- Add more options as needed -->
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="studentCategory">Category</label>
-                                                <select class="form-control" id="studentCategory" name="category" required>
-                                                    <option value="">Select Category</option>
-                                                    <option value="Science">Science</option>
-                                                    <option value="Arts">Arts</option>
-                                                    <option value="Mathematics">Mathematics</option>
-                                                    <option value="History">History</option>
-                                                    <option value="Languages">Languages</option>
-                                                    <!-- Add more options as needed -->
-                                                </select>
-                                            </div>
-                                            
-                                            
-                                            <div class="form-group">
-                                                <label for="studentPicture">Picture</label>
-                                                <input type="file" class="form-control-file" id="studentPicture" name="picture">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save Student</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Student
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Class
-                                        </th>
-                                        <th>
-                                            Category
-                                        </th>
-                                        <th>
-                                            Created At
-                                        </th>
-                                        <th>
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% students.forEach(student => { %>
-                                        <tr>
-                                            <td class="py-1">
-                                                <img src="<%= student.picture %>" alt="image">
-                                            </td>
-                                            <td>
-                                                <%= student.name %>
-                                            </td>
-                                            <td>
-                                                <%= student.email %>
-                                            </td>
-                                            <td><span class="badge <%= student.class === '10th Grade' ? 'badge-primary' :
-                                                                     student.class === '9th Grade' ? 'badge-secondary' :
-                                                                     student.class === '8th Grade' ? 'badge-success' :
-                                                                     student.class === '7th Grade' ? 'badge-danger' :
-                                                                     student.class === '6th Grade' ? 'badge-warning' :
-                                                                     'badge-info' %>"><%= student.class %></span></td>
-                                            <td><span class="badge <%= student.category === 'Science' ? 'badge-primary' :
-                                                                        student.category === 'Arts' ? 'badge-secondary' :
-                                                                        student.category === 'Mathematics' ? 'badge-success' :
-                                                                        student.category === 'History' ? 'badge-danger' :
-                                                                        student.category === 'Languages' ? 'badge-warning' :
-                                                                        'badge-info' %>"><%= student.category %></span></td>
-                                            <td>
-                                                <%= student.created_at.toDateString() %> 
-                                            </td>
-                                            <td >
-                                                <div class="d-inline-flex align-items-center">
-                                                    <a href="#" class="btn btn-sm btn-outline-secondary edit-student mr-1 mb-2"
-                                                       data-toggle="modal" data-target="#editStudentModal<%= student._id %>"
-                                                       data-id="<%= student._id %>"><i class="fas fa-pencil-alt"></i></a>
-                                                    
-                                                    <form action="/students/<%= student._id %>?_method=DELETE" method="POST" class="delete-form mt-2">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger "><i class="far fa-trash-alt"></i></button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                            
-                                            
-                                            
-                                            
-                                            
-                                                   </tr>
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h4 class="card-title mb-0">Students Table</h4>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  data-toggle="modal"
+                  data-target="#addStudentModal"
+                >
+                  <i class="fas fa-user-plus"></i> Add Student
+                </button>
+                <a href="/recyclebin" class="btn btn-warning">Recycle Bin</a>
+              </div>
 
-                                
-                                        <!-- Edit Student Modal -->
-                                        <div class="modal fade" id="editStudentModal<%= student._id %>" tabindex="-1" role="dialog"
-                                            aria-labelledby="editStudentModalLabel<%= student._id %>" aria-hidden="true">
-                                           <div class="modal-dialog" role="document">
-                                               <div class="modal-content">
-                                                   <div class="modal-header">
-                                                       <h5 class="modal-title" id="editStudentModalLabel<%= student._id %>">Edit Student</h5>
-                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                           <span aria-hidden="true">&times;</span>
-                                                       </button>
-                                                   </div>
-                                                   <form id="editStudentForm<%= student._id %>" action="/students/edit" method="POST" enctype="multipart/form-data">
-                                                       <div class="modal-body">
-                                                           <input type="hidden" id="editStudentId<%= student._id %>" name="id" value="<%= student._id %>">
-                                                           <div class="form-group">
-                                                               <img src="<%= student.picture %>" alt="Current Picture" class="img-thumbnail mb-2" style="max-width: 120px; border-radius: 20%; margin-top: -2rem;">
-                                                           </div>
-                                                           <div class="form-group">
-                                                               <label for="editStudentName">Name</label>
-                                                               <input type="text" class="form-control" id="editStudentName<%= student._id %>" name="name" value="<%= student.name %>" required>
-                                                           </div>
-                                                           <div class="form-group">
-                                                               <label for="editStudentEmail">Email</label>
-                                                               <input type="email" class="form-control" id="editStudentEmail<%= student._id %>" name="email" value="<%= student.email %>" required>
-                                                           </div>
-                                                           <div class="form-group">
-                                                               <label for="editStudentClass">Class</label>
-                                                               <select class="form-control" id="editStudentClass<%= student._id %>" name="class" required>
-                                                                   <option value="10th Grade" <%= student.class === '10th Grade' ? 'selected' : '' %>>10th Grade</option>
-                                                                   <option value="9th Grade" <%= student.class === '9th Grade' ? 'selected' : '' %>>9th Grade</option>
-                                                                   <option value="8th Grade" <%= student.class === '8th Grade' ? 'selected' : '' %>>8th Grade</option>
-                                                                   <option value="7th Grade" <%= student.class === '7th Grade' ? 'selected' : '' %>>7th Grade</option>
-                                                                   <option value="6th Grade" <%= student.class === '6th Grade' ? 'selected' : '' %>>6th Grade</option>
-                                                                   <!-- Add more options as needed -->
-                                                               </select>
-                                                           </div>
-                                                           <div class="form-group">
-                                                               <label for="editStudentCategory">Category</label>
-                                                               <select class="form-control" id="editStudentCategory<%= student._id %>" name="category" required>
-                                                                   <option value="Science" <%= student.category === 'Science' ? 'selected' : '' %>>Science</option>
-                                                                   <option value="Arts" <%= student.category === 'Arts' ? 'selected' : '' %>>Arts</option>
-                                                                   <option value="Mathematics" <%= student.category === 'Mathematics' ? 'selected' : '' %>>Mathematics</option>
-                                                                   <option value="Languages" <%= student.category === 'Languages' ? 'selected' : '' %>>History</option>
-                                                                   <option value="Languages" <%= student.category === 'Languages' ? 'selected' : '' %>>Languages</option>
-                                                                   <!-- Add more options as needed -->
-                                                               </select>
-                                                           </div>
-                                                           <div class="form-group">
-                                                               <label for="editStudentPicture">Profile Picture</label>
-                                                               <input type="file" class="form-control-file" id="editStudentPicture<%= student._id %>" name="picture">
-                                                           </div>
-                                                       </div>
-                                                       <div class="modal-footer">
-                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                           <button type="submit" class="btn btn-primary">Save changes</button>
-                                                       </div>
-                                                   </form>
-                                               </div>
-                                           </div>
-                                       </div>
-                                        
-
-                                    <% }); %>
-                                </tbody>
-                                
-                            </table>
+              <!-- Add Student Modal -->
+              <div
+                class="modal fade"
+                id="addStudentModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="addStudentModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <form
+                      id="addStudentForm"
+                      method="post"
+                      action="/addstudent"
+                      enctype="multipart/form-data"
+                    >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addStudentModalLabel">
+                          Add Student
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-group">
+                          <label for="studentName">Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="studentName"
+                            name="name"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="studentEmail">Email</label>
+                          <input
+                            type="email"
+                            class="form-control"
+                            id="studentEmail"
+                            name="email"
+                            required
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="studentClass">Class</label>
+                          <select
+                            class="form-control"
+                            id="studentClass"
+                            name="class"
+                            required
+                          >
+                            <option value="">Select Class</option>
+                            <option value="10th Grade">10th Grade</option>
+                            <option value="9th Grade">9th Grade</option>
+                            <option value="8th Grade">8th Grade</option>
+                            <option value="7th Grade">7th Grade</option>
+                            <option value="6th Grade">6th Grade</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="studentCategory">Category</label>
+                          <select
+                            class="form-control"
+                            id="studentCategory"
+                            name="category"
+                            required
+                          >
+                            <option value="">Select Category</option>
+                            <option value="Science">Science</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="History">History</option>
+                            <option value="Languages">Languages</option>
+                          </select>
                         </div>
 
-
-
-                        <div class="d-flex justify-content-left mt-3">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
-                            </nav>
+                        <div class="form-group">
+                          <label for="studentPicture">Picture</label>
+                          <input
+                            type="file"
+                            class="form-control-file"
+                            id="studentPicture"
+                            name="picture"
+                          />
                         </div>
-                    </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          Save Student
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Class</th>
+                      <th>Category</th>
+                      <th>Created At</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% students.forEach(student => { %> <% if
+                    (!student.isDeleted) { %>
+                    <!-- Only show student if isDeleted is false -->
+                    <tr>
+                      <td class="py-1">
+                        <img src="<%= student.picture %>" alt="image" />
+                      </td>
+                      <td><%= student.name %></td>
+                      <td><%= student.email %></td>
+                      <td>
+                        <span
+                          class="badge <%= student.class === '10th Grade' ? 'badge-primary' : student.class === '9th Grade' ? 'badge-secondary' : student.class === '8th Grade' ? 'badge-success' : student.class === '7th Grade' ? 'badge-danger' : student.class === '6th Grade' ? 'badge-warning' : 'badge-info' %>"
+                        >
+                          <%= student.class %>
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          class="badge <%= student.category === 'Science' ? 'badge-primary' : student.category === 'Arts' ? 'badge-secondary' : student.category === 'Mathematics' ? 'badge-success' : student.category === 'History' ? 'badge-danger' : student.category === 'Languages' ? 'badge-warning' : 'badge-info' %>"
+                        >
+                          <%= student.category %>
+                        </span>
+                      </td>
+                      <td><%= student.created_at.toDateString() %></td>
+                      <td>
+                        <div class="d-inline-flex align-items-center">
+                          <a
+                            href="#"
+                            class="btn btn-sm btn-outline-secondary edit-student mr-1 mb-2"
+                            data-toggle="modal"
+                            data-target="#editStudentModal<%= student._id %>"
+                            data-id="<%= student._id %>"
+                          >
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
+
+                          <form
+                            action="/students/<%= student._id %>?_method=DELETE"
+                            method="POST"
+                            class="delete-form mt-2"
+                          >
+                            <button
+                              type="submit"
+                              class="btn btn-sm btn-outline-danger"
+                            >
+                              <i class="far fa-trash-alt"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!-- Edit Student Modal -->
+                    <div
+                      class="modal fade"
+                      id="editStudentModal<%= student._id %>"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="editStudentModalLabel<%= student._id %>"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="editStudentModalLabel<%= student._id %>"
+                            >
+                              Edit Student
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form
+                            id="editStudentForm<%= student._id %>"
+                            action="/students/edit"
+                            method="POST"
+                            enctype="multipart/form-data"
+                          >
+                            <div class="modal-body">
+                              <input
+                                type="hidden"
+                                id="editStudentId<%= student._id %>"
+                                name="id"
+                                value="<%= student._id %>"
+                              />
+                              <div class="form-group">
+                                <img
+                                  src="<%= student.picture %>"
+                                  alt="Current Picture"
+                                  class="img-thumbnail mb-2"
+                                  style="
+                                    max-width: 120px;
+                                    border-radius: 20%;
+                                    margin-top: -2rem;
+                                  "
+                                />
+                              </div>
+                              <div class="form-group">
+                                <label for="editStudentName">Name</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="editStudentName<%= student._id %>"
+                                  name="name"
+                                  value="<%= student.name %>"
+                                  required
+                                />
+                              </div>
+                              <div class="form-group">
+                                <label for="editStudentEmail">Email</label>
+                                <input
+                                  type="email"
+                                  class="form-control"
+                                  id="editStudentEmail<%= student._id %>"
+                                  name="email"
+                                  value="<%= student.email %>"
+                                  required
+                                />
+                              </div>
+                              <div class="form-group">
+                                <label for="editStudentClass">Class</label>
+                                <select
+                                  class="form-control"
+                                  id="editStudentClass<%= student._id %>"
+                                  name="class"
+                                  required
+                                >
+                                  <option value="10th Grade" <%= student.class
+                                  === '10th Grade' ? 'selected' : '' %>>10th
+                                  Grade <option value="9th Grade" <%=
+                                  student.class === '9th Grade' ? 'selected' :
+                                  '' %>>9th Grade <option value="8th Grade" <%=
+                                  student.class === '8th Grade' ? 'selected' :
+                                  '' %>>8th Grade <option value="7th Grade" <%=
+                                  student.class === '7th Grade' ? 'selected' :
+                                  '' %>>7th Grade <option value="6th Grade" <%=
+                                  student.class === '6th Grade' ? 'selected' :
+                                  '' %>>6th Grade
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="editStudentCategory"
+                                  >Category</label
+                                >
+                                <select
+                                  class="form-control"
+                                  id="editStudentCategory<%= student._id %>"
+                                  name="category"
+                                  required
+                                >
+                                  <option value="Science" <%= student.category
+                                  === 'Science' ? 'selected' : '' %>>Science
+                                  <option value="Arts" <%= student.category ===
+                                  'Arts' ? 'selected' : '' %>>Arts <option
+                                  value="Mathematics" <%= student.category ===
+                                  'Mathematics' ? 'selected' : '' %>>Mathematics
+                                  <option value="History" <%= student.category
+                                  === 'History' ? 'selected' : '' %>>History
+                                  <option value="Languages" <%= student.category
+                                  === 'Languages' ? 'selected' : '' %>>Languages
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="editStudentPicture">Picture</label>
+                                <input
+                                  type="file"
+                                  class="form-control-file"
+                                  id="editStudentPicture<%= student._id %>"
+                                  name="picture"
+                                />
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                              <button type="submit" class="btn btn-primary">
+                                Save Changes
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                    <% } %> <% }); %>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            
-            
+          </div>
         </div>
+      </div>
     </div>
+
     <!-- plugins:js -->
     <script src="vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
+
     <!-- Plugin js for this page -->
-    <script src="vendors/chart.js/Chart.min.js"></script>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="js/dataTables.select.min.js"></script>
-
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
+    <script src="js/file-upload.js"></script>
     <script src="js/off-canvas.js"></script>
     <script src="js/hoverable-collapse.js"></script>
-    <script src="js/template.js"></script>
+    <script src="js/misc.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
     <script src="js/dashboard.js"></script>
-    <script src="js/Chart.roundedBarCharts.js"></script>
-    <!-- End custom js for this page-->
-</body>
-
+    <!-- End plugin js for this page -->
+  </body>
 </html>
-
-
-
