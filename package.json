@@ -2,9 +2,12 @@
   "name": "student-management",
   "version": "1.0.0",
   "main": "app.js",
+  "homepage": "https://siddhant8019.github.io/Soft-ProjectCRUD",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "Siddhant Patil",
   "license": "ISC",
