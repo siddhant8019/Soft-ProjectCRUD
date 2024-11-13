@@ -54,35 +54,27 @@ router.post("/students/edit", upload.single("picture"), async (req, res) => {
   }
 
   try {
-    // Find the student by ID
     const student = await Student.findById(id);
+    if (!student) return res.status(404).send("Student not found");
 
-    if (!student) {
-      return res.status(404).send("Student not found");
-    }
-
-    // Update student fields only if they are present in req.body
-    if (name) {
-      student.name = name;
-    }
-    if (email) {
-      student.email = email;
-    }
-    if (classInfo) {
-      student.class = classInfo;
-    }
-    if (category) {
-      student.category = category;
-    }
-    if (picture) {
-      student.picture = picture;
-    }
+    // Update fields only if present
+    if (name) student.name = name;
+    if (email) student.email = email;
+    if (classInfo) student.class = classInfo;
+    if (category) student.category = category;
+    if (picture) student.picture = picture;
 
     // Save updated student document
     await student.save();
-    console.log("Student updated successfully");
 
-    // Redirect to home page or student list page
+    // Log the modification in history
+    const studentHistory = new StudentHistory({
+      studentId: student._id,
+      data: student.toObject(),
+      operation: "modified",
+    });
+    await studentHistory.save();
+
     res.redirect("/");
   } catch (error) {
     console.error("Error updating student:", error);
@@ -90,7 +82,6 @@ router.post("/students/edit", upload.single("picture"), async (req, res) => {
   }
 });
 
-// Soft delete student route
 router.delete("/students/:id", async (req, res) => {
   const studentId = req.params.id;
 
@@ -102,6 +93,14 @@ router.delete("/students/:id", async (req, res) => {
     student.isDeleted = true;
     student.deletedAt = new Date();
     await student.save();
+
+    // Log the deletion in student history
+    const studentHistory = new StudentHistory({
+      studentId: student._id,
+      data: student.toObject(),
+      operation: "deleted",
+    });
+    await studentHistory.save();
 
     console.log("Student soft-deleted successfully");
     res.redirect("/");
@@ -157,6 +156,29 @@ router.post("/students/delete-permanent/:id", async (req, res) => {
     res.redirect("/recyclebin");
   } catch (error) {
     console.error("Error permanently deleting student:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/modifiedrecords", async (req, res) => {
+  try {
+    // Fetch modified records from StudentHistory
+    const modifiedRecords = await StudentHistory.find({
+      operation: { $in: ["modified", "restored"] },
+    }).lean();
+
+    // Fetch soft-deleted students from Student collection
+    const deletedStudents = await Student.find({
+      isDeleted: true,
+    }).lean();
+
+    // Combine both lists (modified records and soft-deleted records)
+    const allRecords = modifiedRecords.concat(deletedStudents);
+
+    // Render modifiedRecords.ejs with the combined data
+    res.render("modifiedRecords", { modifiedRecords });
+  } catch (error) {
+    console.error("Error fetching modified records:", error);
     res.status(500).send("Server error");
   }
 });
